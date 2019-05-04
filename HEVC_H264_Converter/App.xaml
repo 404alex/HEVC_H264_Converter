@@ -1,0 +1,7 @@
+﻿<Application
+    x:Class="HEVC_H264_Converter.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:HEVC_H264_Converter">
+
+</Application>
