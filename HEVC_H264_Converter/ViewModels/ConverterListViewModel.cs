@@ -14,8 +14,14 @@ namespace HEVC_H264_Converter.ViewModels
 
         public ConverterListViewModel(HevcFile model = null) => Model = model ?? new HevcFile();
 
+        public ConverterListViewModel()
+        {
+            this.Files = new List<HevcFile>();
+        }
 
         private HevcFile _model;
+
+        private List<HevcFile> _files = new List<HevcFile>();
         public HevcFile Model
         {
             get => _model;
@@ -115,7 +121,14 @@ namespace HEVC_H264_Converter.ViewModels
 
         public List<HevcFile> Files
         {
-            get;set;
+            get => _files;
+            set
+            {
+                if (value != _files)
+                {
+                    OnPropertyChanged();
+                }
+            }
         }
 
 

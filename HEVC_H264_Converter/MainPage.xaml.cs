@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -29,22 +30,39 @@ namespace HEVC_H264_Converter
 
         public MainPage()
         {
-            ViewModel.Files = new List<Model.HevcFile>();
-
-            #region
-            //propulate test data
-            HevcFile hevcFile = new HevcFile();
-            hevcFile.FileName = "filename";
-            hevcFile.FilePath = "filepath";
-            hevcFile.IsFinished = true;
-            hevcFile.Percentage = 54;
-            hevcFile.Speed = 1.9;
-            hevcFile.TargetPath = "targetpath";
-            ViewModel.Files.Add(hevcFile);
-            #endregion
-
-
             this.InitializeComponent();
+        }
+
+        private async void AddFile_Click(object sender, RoutedEventArgs e)
+        {
+            var picker = new Windows.Storage.Pickers.FileOpenPicker();
+            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
+            picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary;
+            picker.FileTypeFilter.Add(".mov");
+
+            var files = await picker.PickMultipleFilesAsync();
+            if (files.Count > 0)
+            {
+                foreach (var item in files)
+                {
+
+                    HevcFile hevcFile = new HevcFile();
+                    hevcFile.FileName = item.Name;
+                    hevcFile.FilePath = item.Path;
+                    hevcFile.IsFinished = false;
+                    hevcFile.Percentage = 0;
+                    hevcFile.Speed = 0;
+                    string temp = item.Path;
+                    hevcFile.TargetPath = temp.Insert(temp.Length - item.FileType.Length, "_done");
+                    ViewModel.Files.Add(hevcFile);
+                }
+            }
+            else
+            {
+
+            }
+            this.dataGrid.ItemsSource = null;
+            this.dataGrid.ItemsSource = ViewModel.Files;
         }
     }
 }
