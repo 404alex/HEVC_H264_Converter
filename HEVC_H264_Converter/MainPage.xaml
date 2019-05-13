@@ -7,20 +7,44 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:model="using:HEVC_H264_Converter.Model"
+    xmlns:vm="using:HEVC_H264_Converter.ViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+
+   
     <Grid>
+
+        <CommandBar
+                x:Name="mainCommandBar"
+                HorizontalAlignment="Stretch"
+                Background="Transparent"
+                RelativePanel.LeftOf="CustomerSearchBox"
+                RelativePanel.RightOf="PageTitle">
+            
+            <AppBarButton
+                    Icon="Add"
+                    Label="New"
+                    ToolTipService.ToolTip="Add new file" />
+
+            <AppBarButton
+                    Icon="Play"
+                    Label="Start"
+                    ToolTipService.ToolTip="Start Process" />
+
+            <AppBarButton
+                    Icon="Stop"
+                    Label="Stop"
+                    ToolTipService.ToolTip="Stop Process" />
+
+
+        </CommandBar>
         <NavigationView x:Name="nvSample" Header="UWP Video Processing App" IsSettingsVisible="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Sync" Content="H265-H264 Converter" Tag="265_264_Page" IsSelected="True"/>
             </NavigationView.MenuItems>
             <Frame x:Name="contentFrame" Margin="24">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="60"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <controls:DataGrid Grid.Row="0"
+                <controls:DataGrid Grid.Row="0"
         x:Name="dataGrid"
         Margin="12"
         VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -42,25 +66,19 @@
         IsReadOnly="False"
         RowDetailsVisibilityMode="Collapsed"
         SelectionMode="Extended"
-        RowGroupHeaderPropertyNameAlternative="Range">
-                        <controls:DataGrid.Columns>
-                            <controls:DataGridTextColumn IsReadOnly="True" Header="Rank" Binding="{Binding Rank}" Tag="ID" />
-                            <controls:DataGridTextColumn IsReadOnly="True" Header="Mountain" Binding="{Binding Mountain}" Tag="File Name" />
-                            <controls:DataGridTextColumn IsReadOnly="True" Header="Height (m)" Binding="{Binding Height_m}" Tag="File Location" />
-                            <controls:DataGridTextColumn IsReadOnly="True" Header="Range" Binding="{Binding Range}" Tag="Progress" />
-                        </controls:DataGrid.Columns>
-                    </controls:DataGrid>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="7*"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="1" Padding="0" Height="30" Width="80">Add</Button>
-                        <Button Grid.Column="2" Padding="0" Height="30" Width="80">Start</Button>
-                    </Grid>
-                </Grid>
-                
+        RowGroupHeaderPropertyNameAlternative="Range"
+        ItemsSource="{x:Bind ViewModel.Files,Mode=TwoWay}"
+                                       >
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="FileName" Binding="{Binding FileName}" Tag="FileName" />
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="FilePath" Binding="{Binding FilePath}" Tag="FilePath" />
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="Percentage" Binding="{Binding Percentage}" Tag="Percentage" />
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="Speed" Binding="{Binding Speed}" Tag="Speed" />
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="TargetPath" Binding="{Binding TargetPath}" Tag="TargetPath" />
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="IsFinished" Binding="{Binding IsFinished}" Tag="IsFinished" />
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+
             </Frame>
         </NavigationView>
 
